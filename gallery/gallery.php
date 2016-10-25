@@ -41,13 +41,15 @@ class YellowGallery
 					$output .= ">\n";
 					foreach($files as $file)
 					{
-						list($widthInput, $heightInput) = $this->yellow->toolbox->detectImageInfo($file->fileName);
-						list($src, $width, $height) = $this->yellow->plugins->get("image")->getImageInfo($file->fileName, $size, $size);
-						$output .= "<a href=\"".$file->getLocation(true)."\" data-size=\"{$widthInput}x{$heightInput}\">";
-						$output .= "<img src=\"".htmlspecialchars($src)."\" width=\"".htmlspecialchars($width)."\" height=\"".
-							htmlspecialchars($height)."\" alt=\"".basename($file->getLocation(true))."\" title=\"".
-							basename($file->getLocation(true))."\" />";
-						$output .= "</a> \n";
+						if(@is_array(getimagesize($file->fileName))){
+							list($widthInput, $heightInput) = $this->yellow->toolbox->detectImageInfo($file->fileName);
+							list($src, $width, $height) = $this->yellow->plugins->get("image")->getImageInfo($file->fileName, $size, $size);
+							$output .= "<a href=\"".$file->getLocation(true)."\" data-size=\"{$widthInput}x{$heightInput}\">";
+							$output .= "<img src=\"".htmlspecialchars($src)."\" width=\"".htmlspecialchars($width)."\" height=\"".
+								htmlspecialchars($height)."\" alt=\"".basename($file->getLocation(true))."\" title=\"".
+								basename($file->getLocation(true))."\" />";
+							$output .= "</a> \n";
+						}
 					}
 					$output .= "</div>";
 				} else {
